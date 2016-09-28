@@ -5,7 +5,7 @@
 
 int stateInPacket = 0; //to move in their bit pattern 
 int sysdalarmValue = 2; //to tell IFTTT if system is armed or not
-bool DEBUG = TRUE;
+bool DEBUG = FALSE;
 
 void setup() {
     Serial1.begin(9600);
