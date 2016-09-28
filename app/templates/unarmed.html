@@ -1,9 +1,4 @@
-{% block head %}
-{{super()}}
-{{fixes.ie8()}}
-<meta name="author" content="Marc-Olivier Arsenault">
-<link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}" />
-{%- endblock %}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% block content %}
 <div class="container">
     <center>
