@@ -6,9 +6,18 @@
 int stateInPacket = 0; //to move in their bit pattern 
 int sysdalarmValue = 2; //to tell IFTTT if system is armed or not
 bool DEBUG = FALSE;
+int values[500] = {0};
+int position = 0;//position in the list
+int lastRead = 0;//position to read in the list
+int lastData = 0;//EPOCH value
+String dataValues = "";
 
 void setup() {
     Serial1.begin(9600);
+    Particle.variable("lastRead",lastRead);
+    Particle.variable("lastData",lastData);
+    Particle.variable("dataValues",dataValues);
+    Particle.function("UpdateString", updateString);
     Particle.function("ArmedStatus", getStatus);
     if (DEBUG){
         Serial.begin(9600);
@@ -17,8 +26,19 @@ void setup() {
 
 void loop() {
     if (Serial1.available() > 0) {
-        handleData(Serial1.read());
-     }
+        values[position] = (Serial1.read());
+        position ++;
+        if(position == 500)
+            cleanoutList();
+    }
+    else{
+        if (position > lastRead) {
+            handleData(values[lastRead]);
+            lastRead ++;
+            lastData = Time.now();
+        }
+        
+    }
 }
 
 //Handle all the actual data from the system
@@ -126,4 +146,27 @@ int getStatus(String command) {
 //method to call when the 
 void sendAlarm() {
     Particle.publish("ALARM");
+}
+
+int updateString(String command){
+    dataValues = "";
+    int i;
+    for (i=0;i<position;i++) {
+        dataValues += String(values[i], HEX);
+        dataValues += String(';');
+    }
+}
+
+//move the list 400 position ahead (to keep the size of the list small)
+void cleanoutList() {
+    int i;
+    for (i = 0; i < 100; i++) {
+        values[i] = values[i+400];
+    }
+    for (i = 100; i < 500; i++) {
+        values[i] = 0;
+    }
+    lastRead = lastRead - 400;
+    position = position - 400;
+    
 }
