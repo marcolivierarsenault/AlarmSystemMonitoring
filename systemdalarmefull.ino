@@ -10,6 +10,7 @@ int values[500] = {0};
 int position = 0;//position in the list
 int lastRead = 0;//position to read in the list
 int lastData = 0;//EPOCH value
+int stringLengt = 0;
 String dataValues = "";
 
 void setup() {
@@ -17,6 +18,9 @@ void setup() {
     Particle.variable("lastRead",lastRead);
     Particle.variable("lastData",lastData);
     Particle.variable("dataValues",dataValues);
+    Particle.variable("stateInPkt", stateInPacket);
+    Particle.variable("lenght", stringLengt);
+    
     Particle.function("UpdateString", updateString);
     Particle.function("ArmedStatus", getStatus);
     if (DEBUG){
@@ -155,6 +159,8 @@ int updateString(String command){
         dataValues += String(values[i], HEX);
         dataValues += String(';');
     }
+    stringLengt = dataValues.length();
+    return 1;
 }
 
 //move the list 400 position ahead (to keep the size of the list small)
