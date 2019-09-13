@@ -16,6 +16,7 @@ void setup() {
     if (DEBUG){
         Serial.begin(9600);
     }
+    sendAlarm();
 }
 
 void loop() {
@@ -38,19 +39,13 @@ void handleData(int newValue){
             case 1: //represent 20 (the first two digit of the year)
                 if (DEBUG)
                     Serial.write(newValue);
-                if(newValue==20)
-                    stateInPacket++;
-                else
-                    stateInPacket = 0;
+                stateInPacket++;
                 break;
 
             case 2: //represent 16 (or more) (the last two digit of the year)
                 if (DEBUG)
                     Serial.write(newValue);
-                if(newValue>15)
-                    stateInPacket++;
-                else
-                    stateInPacket = 0;
+                stateInPacket++;
                 break;
 
             case 3: //represent month of the year 1-12
