@@ -1,10 +1,11 @@
-from flask import render_template, request, abort, flash, g, redirect, url_for,jsonify
-from app import app
+from flask import render_template, request, abort, flash, g, redirect, url_for,jsonify, Flask
 from config import *
 import requests
 import smtplib
 from email.mime.text import MIMEText
 #Default Loader for Views, This class allows the interpretation of the different URL
+
+app = Flask(__name__)
 
 @app.route('/')
 @app.route('/index')
@@ -27,3 +28,7 @@ def alarm():
     s.sendmail(ALARM_EMAIL_FROM, [ALARM_EMAIL_TO], msg.as_string())
     s.quit()
     return ""
+
+# We only need this for local development.
+if __name__ == '__main__':
+    app.run()

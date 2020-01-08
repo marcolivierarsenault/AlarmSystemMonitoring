@@ -1,0 +1,12 @@
+{
+    "dev": {
+        "app_function": "views.app",
+        "aws_region": "ca-central-1",
+        "profile_name": "default",
+        "project_name": "alarmsystemmoni",
+        "runtime": "python3.7",
+        "s3_bucket": "zappa-ibmhqj0v9",
+        "domain": "alarm.coffeeanddata.ca",
+        "certificate_arn": "arn:aws:acm:us-east-1:209788288140:certificate/0e598c2e-72d5-4890-8142-480f0298c1a7"
+    }
+}
